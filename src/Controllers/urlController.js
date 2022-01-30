@@ -57,7 +57,6 @@ const createurl = async function (req, res) {
         //---FETCH THE DATA IN REDIS
         let checkforUrl = await GET_ASYNC(`${longUrl}`)
         if (checkforUrl) {
-            console.log("line no66")
             return res.status(200).send({ status: true, "data": JSON.parse(checkforUrl) })
         }
         //---FETCH THE DATA IN MONGO DB IF IT IS NOT PRESENT IN CACHE
@@ -89,7 +88,7 @@ const geturl = async function (req, res) {
 
         let checkforUrl = await GET_ASYNC(`${urlCode}`)    //first check in cache
         if (checkforUrl) {
-            return res.redirect(302, checkforUrl)
+            return res.redirect(302, JSON.parse(checkforUrl))
         }
 
         const url = await urlModel.findOne({ urlCode: urlCode })     //second check in Db
